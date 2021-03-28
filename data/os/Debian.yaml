@@ -1,0 +1,10 @@
+---
+gremlin_agent::dependent_packages:
+  - apt-transport-https
+  - dirmngr
+gremlin_agent::repo:
+  url: 'https://deb.gremlin.com/'
+  release': 'release'
+  apt_repo: 'non-free'
+  apt_keyserver: 'keyserver.ubuntu.com'
+  key: '9CDB294B29A5B1E2E00C24C022E8EF3461A50EF6'

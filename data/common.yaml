@@ -1,0 +1,14 @@
+---
+gremlin_agent::package_manage: true
+gremlin_agent::package_ensure: 'latest'
+gremlin_agent::daemon_package_manage: true
+gremlin_agent::daemon_package_ensure: 'latest'
+gremlin_agent::dependent_packages:
+  - apt-transport-https
+  - dirmngr
+gremlin_agent::repo:
+  url: 'https://rpm.gremlin.com/noarch/'
+  key: https://rpm.gremlin.com/gremlin-pgp-public.key'
+gremlin_agent::service: 'gremlind'
+gremlin_agent::agent_root_dir: '/etc/gremlin/'
+

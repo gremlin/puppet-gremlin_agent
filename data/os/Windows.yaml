@@ -1,0 +1,4 @@
+---
+gremlin_agent::package_ensure: 'installed'
+gremlin_agent::daemon_package_ensure: 'installed'
+gremlin_agent::agent_root_dir: 'C:\ProgramData\Gremlin\Agent\'

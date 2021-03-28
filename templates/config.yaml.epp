@@ -1,0 +1,73 @@
+##
+## The Gremlin Configuration File
+##
+## THIS FILE IS MANAGED BY PUPPET
+##
+## Populating the values below is the preferred way to to configure Gremlin installations directly on the host.
+## This file is read by both `gremlin` and `gremlind` processes without having to export shell environment variables.
+##
+## More info at https://www.gremlin.com/docs/infrastructure-layer/advanced-configuration/
+##
+## NOTE: a restart of `gremlind` is necessary to pick up changes
+##
+
+<% if $gremlin_agent::identifier {-%>
+## Gremlin Identifier; uniquely identifies this machine with Gremlin
+## (can also set with GREMLIN_IDENTIFIER environment variable)
+identifier: <%= $gremlin_agent::identifier %>
+
+<% } -%>
+## Gremlin Team Id; you can find this value at https://app.gremlin.com/settings/teams
+## (can also be set with GREMLIN_TEAM_ID environment variable)
+team_id: <%= $gremlin_agent::gremlin_team_id %>
+
+<% if $gremlin_agent::gremlin_client_tags {-%>}
+## Gremlin Client Tags; Tag your machine with key-value pairs that help you target this machine during attacks
+## (can also set with GREMLIN_CLIENT_TAGS environment variable)
+#tags:
+#  service: pet-store
+#  interface: http
+<% $gremlin_agent::gremlin_client_tags.each | $tag | {-%>
+<%= $tag['key'] -%>: <%= $tag['value'] %>
+<% } -%>
+
+<% } -%>
+
+<%# Additional validation to confirm that only team secret or certificate is specified. %>
+<% if $gremlin_agent::gremlin_team_secret and !($gremlin_agent::gremlin_team_certificate_or_file) {-%>
+## Gremlin Team Secret, should not be set when using `team_certificate`+`team_private_key`
+## (can also set with GREMLIN_TEAM_SECRET environment variable)
+team_secret: <%= $gremlin_agent::gremlin_team_secret %>
+
+<% } -%>
+<%# Additional validation to confirm that only team secret or certificate is specified. %>
+<% if $gremlin_agent::gremlin_team_certificate_or_file and !($gremlin_agent::gremlin_team_secret) {-%>
+## Gremlin Team Certificate, should not be set when using `team_secret`.
+## Paste certificate content here or a paths to the file (prefixed with `file://`)
+## (can also set with GREMLIN_TEAM_CERTIFICATE_OR_FILE environment variable)
+team_certificate: <%= $gremlin_agent::gremlin_team_certificate_or_file %>
+
+## Gremlin Team Certificate, should not be set when using `team_secret`.
+## Paste certificate content here or a paths to the file (prefixed with `file://`)
+## (can also set with GREMLIN_TEAM_PRIVATE_KEY_OR_FILE environment variable)
+team_private_key: <%= $gremlin_agent::gremlin_team_private_key_or_file %>
+
+<% } -%>
+
+<% if $gremlin_agent::https_proxy {-%>
+## HTTPS Proxy, set this when routing outbound Gremlin HTTPS traffic through a proxy
+## (can also set with HTTPS_PROXY or https_proxy environment variables)
+https_proxy: <%= $gremlin_agent::https_proxy %>
+
+<% } -%>
+<% if $gremlin_agent::ssl_cert_file {-%>
+## SSL CERT FILE, set this when using a https proxy with a self-signed certificate
+## Paste certificate content here or a paths to the file (prefixed with `file://`)
+## (can also set with SSL_CERT_FILE environment variable)
+ssl_cert_file: <%= $gremlin_agent::ssl_cert_file -%>
+
+<% } -%>
+## Push Metrics, tell Gremlin whether to send system metrics to the control plane for charting the impact of attacks in
+## real time. Metrics are only collected during active attacks, and only metrics relevant to the attack are collected.
+## defaults to `true`
+## (can also set with PUSH_METRICS environment variable)
