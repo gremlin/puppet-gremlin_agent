@@ -76,5 +76,5 @@ Feel free to open a PR for suggested changes or improvements.
 
 TODO:
 * Finish fleshing out Windows support.
-* Add tasks to trigger gremlin checks/attacks.
+* Add tasks to trigger gremlin checks.
 * Add some additional config validation to confirm agent is successfully talking to control plane.
