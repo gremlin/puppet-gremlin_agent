@@ -11,11 +11,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Validate
-        uses: mysociety/action-pdk@master
-        with:
-          action: 'validate'
-
       - name: Run Unit Tests
         uses: mysociety/action-pdk@master
         with:
