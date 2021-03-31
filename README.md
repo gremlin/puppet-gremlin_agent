@@ -50,13 +50,13 @@ gremlin_agent::gremlin_team_secret: '11111111-1111-1111-1111-111111111111'
 
 ## Usage
 
-If you wish to use the certificate pair instead of the team secret, you can provide either the filepath (prefixed with `file:///`) or the whole certificate.
+If you wish to use the certificate pair instead of the team secret, you can provide either the filepath (prefixed with `file://`) or the whole certificate.
 
 ```puppet
 class { 'gremlin_agent':
   gremlin_team_id                  => '11111111-1111-1111-1111-111111111111',
-  gremlin_team_certificate_or_file => 'file:///var/lib/gremlin/key.cert',
-  gremlin_team_private_key_or_file => 'file:///var/lib/gremlin/key.pem',
+  gremlin_team_certificate_or_file => 'file://var/lib/gremlin/key.cert',
+  gremlin_team_private_key_or_file => 'file://var/lib/gremlin/key.pem',
 }
 ```
 
