@@ -8,7 +8,7 @@
 
 #### Public Classes
 
-* [`gremlin_agent`](#gremlin_agent): A short summary of the purpose of this class
+* [`gremlin_agent`](#gremlin_agent): Main class, includes all other classes.
 
 #### Private Classes
 
@@ -20,13 +20,13 @@
 
 ### Tasks
 
-* [`attack`](#attack): A short description of this task
+* [`attack`](#attack): Executes a gremlin attack from target node.
 
 ## Classes
 
 ### <a name="gremlin_agent"></a>`gremlin_agent`
 
-A description of what this class does
+This class installs and configures the gremlin agent plus dependencies.
 
 #### Examples
 
@@ -49,6 +49,7 @@ The following parameters are available in the `gremlin_agent` class:
 * [`service`](#service)
 * [`gremlin_team_id`](#gremlin_team_id)
 * [`agent_root_dir`](#agent_root_dir)
+* [`package_provider`](#package_provider)
 * [`identifier`](#identifier)
 * [`gremlin_client_tags`](#gremlin_client_tags)
 * [`gremlin_team_secret`](#gremlin_team_secret)
@@ -61,61 +62,71 @@ The following parameters are available in the `gremlin_agent` class:
 
 Data type: `Boolean`
 
-
+Whether the gremlin agent installation is managed by this module or not, along with the version. Default value: true
 
 ##### <a name="package_ensure"></a>`package_ensure`
 
 Data type: `String`
 
-
+Which version of the gremlin agent to install. Default value: 'latest'
 
 ##### <a name="daemon_package_manage"></a>`daemon_package_manage`
 
 Data type: `Boolean`
 
-
+Whether the gremlin daemon installation is managed by this module or not, along with the version. Default value: true
 
 ##### <a name="daemon_package_ensure"></a>`daemon_package_ensure`
 
 Data type: `String`
 
-
+Which version of the gremlin daemon to install. Default value: 'latest'
 
 ##### <a name="repo"></a>`repo`
 
-Data type: `Hash`
+Data type: `Hash[Enum['url','key','release','apt_repo','apt_keyserver'], String, 2, 5]`
 
-
+A hash containing at minimum a `url` and `key` where the gremlin software is located.
+On Debian systems, you may also provide `release`, `apt_repo`, and an `apt_keyserver`.
+Default value: See Hiera files.
 
 ##### <a name="dependent_packages"></a>`dependent_packages`
 
-Data type: `Array`
+Data type: `Array[String]`
 
-
+An array of packages that are required to be installed for some attacks to work. Default Value ['apt-transport-https', 'dirmngr']
 
 ##### <a name="service"></a>`service`
 
 Data type: `String`
 
-
+Name of the gremlin daemon service. Default value: 'gremlind'
 
 ##### <a name="gremlin_team_id"></a>`gremlin_team_id`
 
 Data type: `String`
 
-
+The team id for the gremlin agent to authenticate with the control plane.
 
 ##### <a name="agent_root_dir"></a>`agent_root_dir`
 
 Data type: `Stdlib::Absolutepath`
 
+Directory where the config and other agent related files are located. Default value: '/etc/gremlin/'
 
+##### <a name="package_provider"></a>`package_provider`
+
+Data type: `Optional[String]`
+
+Which package provider will install the software. Main purpose is for Windows to support chocolatey. Default value: undef
+
+Default value: ``undef``
 
 ##### <a name="identifier"></a>`identifier`
 
 Data type: `Optional[String]`
 
-
+Gremlin Identifier; uniquely identifies this machine with Gremlin. Default value: undef
 
 Default value: ``undef``
 
@@ -123,7 +134,7 @@ Default value: ``undef``
 
 Data type: `Optional[Array[Hash]]`
 
-
+Gremlin Client Tags; Tag your machine with key-value pairs that help you target this machine during attacks. Default value: undef
 
 Default value: ``undef``
 
@@ -131,7 +142,7 @@ Default value: ``undef``
 
 Data type: `Optional[String]`
 
-
+Gremlin Team Secret, should not be set when using `team_certificate`+`team_private_key`. Default value: undef
 
 Default value: ``undef``
 
@@ -139,7 +150,7 @@ Default value: ``undef``
 
 Data type: `Optional[String]`
 
-
+Gremlin Team Certificate, should not be set when using `team_secret`. Supports file (with `file://` prefix) or full cert. Default value: undef
 
 Default value: ``undef``
 
@@ -147,7 +158,7 @@ Default value: ``undef``
 
 Data type: `Optional[String]`
 
-
+Gremlin Team Certificate, should not be set when using `team_secret`. Supports file (with `file://` prefix) or full cert. Default value: undef
 
 Default value: ``undef``
 
@@ -155,7 +166,7 @@ Default value: ``undef``
 
 Data type: `Optional[String]`
 
-
+HTTPS Proxy, set this when routing outbound Gremlin HTTPS traffic through a proxy. Default value: undef
 
 Default value: ``undef``
 
@@ -163,7 +174,7 @@ Default value: ``undef``
 
 Data type: `Optional[String]`
 
-
+Set this when using a https proxy with a self-signed certificate. Supports file (with `file://` prefix) or full cert. Default value: undef
 
 Default value: ``undef``
 
@@ -171,7 +182,21 @@ Default value: ``undef``
 
 ### <a name="attack"></a>`attack`
 
-A short description of this task
+Executes a gremlin attack from target node.
 
 **Supports noop?** false
+
+#### Parameters
+
+##### `attack`
+
+Data type: `String`
+
+Which attack to execute.
+
+##### `flags`
+
+Data type: `Optional[String]`
+
+The desired arguments associated with the attack. See https://www.gremlin.com/docs/infrastructure-layer/command-line-interface/
 

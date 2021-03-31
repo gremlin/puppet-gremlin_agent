@@ -2,27 +2,25 @@
 
 # Puppet Task Name: attack
 #
-# This is where you put the shell code for your task.
-#
-# You can write Puppet tasks in any language you want and it's easy to
-# adapt an existing Python, PowerShell, Ruby, etc. script. Learn more at:
-# https://puppet.com/docs/bolt/0.x/writing_tasks.html
-#
-# Puppet tasks make it easy for you to enable others to use your script. Tasks
-# describe what it does, explains parameters and which are required or optional,
-# as well as validates parameter type. For examples, if parameter "instances"
-# must be an integer and the optional "datacenter" parameter must be one of
-# portland, sydney, belfast or singapore then the .json file
-# would include:
-#   "parameters": {
-#     "instances": {
-#       "description": "Number of instances to create",
-#       "type": "Integer"
-#     },
-#     "datacenter": {
-#       "description": "Datacenter where instances will be created",
-#       "type": "Enum[portland, sydney, belfast, singapore]"
-#     }
-#   }
-# Learn more at: https://puppet.com/docs/bolt/0.x/writing_tasks.html#ariaid-title11
-#
+# This task will only work if Gremlin is already installed on the system.
+# Daemon isn't required, but you need everything configured to work.
+
+# First we verify gremlin can actually be found.
+gremlin_exec () {
+  if ! command -v gremlin &> /dev/null
+  then
+  # Failing a path check, we see if it's in the default directory as one last hoorah.
+    if test -f "/bin/gremlin"
+    then
+      gremlin_run="/bin/gremlin"
+    else
+        echo "Gremlin agent not found."; exit 1
+    fi
+  else
+    gremlin_run="gremlin"
+  fi
+}
+
+gremlin_exec
+
+$gremlin_run attack $PT_attack $PT_flags

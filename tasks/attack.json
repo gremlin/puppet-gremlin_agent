@@ -1,7 +1,15 @@
 {
   "puppet_task_version": 1,
   "supports_noop": false,
-  "description": "Work in Progress",
+  "description": "Executes a gremlin attack from target node.",
   "parameters": {
+    "attack": {
+      "description": "Which attack to execute.",
+      "type": "String"
+    },
+    "flags": {
+      "description": "The desired arguments associated with the attack. See https://www.gremlin.com/docs/infrastructure-layer/command-line-interface/",
+      "type": "Optional[String]"
+    }
   }
 }
